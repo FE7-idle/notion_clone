@@ -77,16 +77,15 @@
       .list_box {
         min-height: 30px;
         padding-left: 8px;
-        padding-right: 8px;
         color: #5f5e5b;
         font-size: 0.87rem;
         cursor: pointer;
-        margin-bottom: 3px;
       }
       .list_hover_box {
         display: flex;
         align-items: center;
-        padding-left: 11px;
+        /* padding-left: 11px; */
+        margin-right: 10px;
         border-radius: 5px;
         height: 30px;
       }
@@ -103,16 +102,12 @@
       }
 
       .list_logo {
+        margin-left: 10px;
         margin-right: 10px;
       }
       .list_logo_img {
         width: 18px;
       }
-      .list_box:hover .list_logo_img {
-        content: url('./img/right-arrow.png');
-        padding: 3px;
-      }
-
       .remove_logo {
         display: none;
         border-radius: 5px;
@@ -139,12 +134,17 @@
         padding: 3px;
       }
       .list_title {
+        font-size: 0.9rem;
         font-weight: bold;
-        line-height: 3px;
+        line-height: 1.4;
         width: 80%;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
       /* 하위 문서 */
-      .sub_1{
+      .sub_1 {
         padding-left: 15px;
       }
 
@@ -172,58 +172,6 @@
                 alt="remove_logo"
               />
             </div>
-          </li>
-          <!-- <li class="list_box">
-            <div class="list_hover_box">
-              <div class="list_logo">
-                <img
-                  class="list_logo_img"
-                  src="./img/google-docs.png"
-                  alt="list_logo"
-                />
-              </div>
-              <div class="list_title">askvljasvlkjaslv</div>
-              <div class="add_logo">
-                <img
-                  class="remove_logo_img add_img"
-                  src="./img/plus.png"
-                  alt="remove_logo"
-                />
-              </div>
-              <div class="remove_logo">
-                <img
-                  class="remove_logo_img"
-                  src="./img/delete.png"
-                  alt="remove_logo"
-                />
-              </div>
-            </div> -->
-            <!-- <li class="list_box sub_1">
-            <div class="list_hover_box">
-              <div class="list_logo">
-                <img
-                  class="list_logo_img"
-                  src="./img/google-docs.png"
-                  alt="list_logo"
-                />
-              </div>
-              <div class="list_title">하위페이지</div>
-              <div class="add_logo">
-                <img
-                  class="remove_logo_img add_img"
-                  src="./img/plus.png"
-                  alt="remove_logo"
-                />
-              </div>
-              <div class="remove_logo">
-                <img
-                  class="remove_logo_img"
-                  src="./img/delete.png"
-                  alt="remove_logo"
-                />
-              </div>
-            </div>
-          </li> -->
           </li>
         </ul>
       </div>
