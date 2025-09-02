@@ -1,0 +1,30 @@
+:root {
+  --page-w: 900px;
+  --fg: #2f3437;
+  --muted: #6b7280;
+  --border: #e5e7eb;
+  --accent: #3b82f6;
+  --code-bg: #0b1220;
+  --code-fg: #e5e7eb;
+}
+
+#content {
+  max-width: var(--page-w);
+  margin: 32px 0 120px 20px;
+  padding: 0 20px;
+  color: var(--fg);
+  line-height: 1.75;
+  font-size: 16px;
+}
+
+.notion-page-icon {
+  font-size: 42px;
+  line-height: 1;
+  margin-bottom: 6px;
+}
+.notion-title {
+  font-size: 34px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  margin: 0 0 6px;
+}
