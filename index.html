@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Notion</title>
+    <script defer src="./script.js"></script>
     <link rel="stylesheet" href="./css/index.css" />
     <link rel="stylesheet" href="./css/style.css" />
     <style>
@@ -17,52 +18,134 @@
       /* 사이드바 부분 */
       #sidebar {
         background-color: #f9f8f7;
-        width: 250px;
+        width: 280px;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
-        padding-left: 10px;
-        padding-right: 10px;
       }
+      /* Notion Logo */
       .logo {
-        /* flex-grow: 0; */
         min-height: 44px;
       }
+      /* 검색부분 */
       .search {
-        min-height: 100px;
+        min-height: 30px;
       }
+      /* 문서 리스트 박스 */
       .document_list {
         flex-grow: 1;
         display: flex;
         flex-direction: column;
         min-height: 100%;
       }
+      /* 개인 페이지 (문서 추가 부분) */
       .insert_box {
         height: 25px;
-        padding: 3px;
+        padding: 8px;
         color: #91918e;
         font-size: 0.8rem;
         font-weight: bold;
-        cursor: pointer;
+        margin-bottom: 3px;
       }
-      .list_box {
-        height: 30px;
+      .insert_hover_box {
         display: flex;
         align-items: center;
-        padding: 8px;
+        justify-content: space-between;
+        padding-left: 8px;
+        border-radius: 5px;
+        height: 30px;
+        cursor: pointer;
+      }
+      .insert_hover_box:hover {
+        background-color: #efeeec;
+
+        .insert_logo {
+          display: block;
+        }
+      }
+
+      .insert_logo {
+        margin-right: 10px;
+        display: none;
+        border-radius: 5px;
+        padding: 2px;
+      }
+      .insert_logo:hover {
+        background-color: #bcbbbb5e;
+      }
+
+      .list_box {
+        min-height: 30px;
+        padding-left: 8px;
+        padding-right: 8px;
         color: #5f5e5b;
         font-size: 0.87rem;
         cursor: pointer;
+        margin-bottom: 3px;
       }
+      .list_hover_box {
+        display: flex;
+        align-items: center;
+        padding-left: 11px;
+        border-radius: 5px;
+        height: 30px;
+      }
+
+      .list_hover_box:hover {
+        background-color: #efeeec;
+
+        .remove_logo {
+          display: block;
+        }
+        .add_logo {
+          display: block;
+        }
+      }
+
       .list_logo {
-        margin-right: 8px;
+        margin-right: 10px;
       }
-      .list_logo > img {
-        width: 17px;
+      .list_logo_img {
+        width: 18px;
+      }
+      .list_box:hover .list_logo_img {
+        content: url('./img/right-arrow.png');
+        padding: 3px;
+      }
+
+      .remove_logo {
+        display: none;
+        border-radius: 5px;
+        padding: 2px;
+        margin-right: 3px;
+      }
+      .add_logo {
+        display: none;
+        border-radius: 5px;
+        padding: 2px;
+      }
+
+      .remove_logo:hover {
+        background-color: #bcbbbb5e;
+      }
+      .add_logo:hover {
+        background-color: #bcbbbb5e;
+      }
+
+      .remove_logo_img {
+        width: 16px;
+      }
+      .add_img {
+        padding: 3px;
       }
       .list_title {
         font-weight: bold;
         line-height: 3px;
+        width: 80%;
+      }
+      /* 하위 문서 */
+      .sub_1{
+        padding-left: 15px;
       }
 
       /* 콘텐츠 부분 */
@@ -75,34 +158,74 @@
     <div id="main">
       <div id="sidebar">
         <div class="logo">I-dle의 Notion</div>
-        <div class="search">검색</div>
-        <div class="document_list">
-          <div class="insert_box">개인 페이지</div>
-          <li class="list_box">
-            <div class="list_logo">
-              <img src="./img/google-docs.png" alt="list_logo" />
-            </div>
-            <div class="list_title">NextJS</div>
-          </li>
-          <li class="list_box">
-            <div class="list_logo">
-              <img src="./img/google-docs.png" alt="list_logo" />
-            </div>
-            <div class="list_title">React</div>
-          </li>
-          <li class="list_box">
-            <div class="list_logo">
-              <img src="./img/google-docs.png" alt="list_logo" />
-            </div>
-            <div class="list_title">JavaScript</div>
-          </li>
-          <li class="list_box">
-            <div class="list_logo">
-              <img src="./img/google-docs.png" alt="list_logo" />
-            </div>
-            <div class="list_title">CSS</div>
-          </li>
+        <div class="other_menu">
+          <div class="search">검색</div>
+          <div class="search">홈</div>
         </div>
+        <ul class="document_list">
+          <li class="insert_hover_box">
+            <div class="insert_box">개인 페이지</div>
+            <div class="insert_logo">
+              <img
+                class="remove_logo_img add_img"
+                src="./img/plus.png"
+                alt="remove_logo"
+              />
+            </div>
+          </li>
+          <!-- <li class="list_box">
+            <div class="list_hover_box">
+              <div class="list_logo">
+                <img
+                  class="list_logo_img"
+                  src="./img/google-docs.png"
+                  alt="list_logo"
+                />
+              </div>
+              <div class="list_title">askvljasvlkjaslv</div>
+              <div class="add_logo">
+                <img
+                  class="remove_logo_img add_img"
+                  src="./img/plus.png"
+                  alt="remove_logo"
+                />
+              </div>
+              <div class="remove_logo">
+                <img
+                  class="remove_logo_img"
+                  src="./img/delete.png"
+                  alt="remove_logo"
+                />
+              </div>
+            </div> -->
+            <!-- <li class="list_box sub_1">
+            <div class="list_hover_box">
+              <div class="list_logo">
+                <img
+                  class="list_logo_img"
+                  src="./img/google-docs.png"
+                  alt="list_logo"
+                />
+              </div>
+              <div class="list_title">하위페이지</div>
+              <div class="add_logo">
+                <img
+                  class="remove_logo_img add_img"
+                  src="./img/plus.png"
+                  alt="remove_logo"
+                />
+              </div>
+              <div class="remove_logo">
+                <img
+                  class="remove_logo_img"
+                  src="./img/delete.png"
+                  alt="remove_logo"
+                />
+              </div>
+            </div>
+          </li> -->
+          </li>
+        </ul>
       </div>
       <div id="content">
         <section class="page demo">
