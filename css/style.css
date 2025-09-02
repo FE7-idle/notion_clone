@@ -1,0 +1,49 @@
+:root {
+  --page-w: 900px;
+  --fg: #2f3437;
+}
+
+#content {
+  max-width: var(--page-w);
+  margin: 32px auto;
+  padding: 0 20px;
+  color: var(--fg);
+  line-height: 1.75;
+  font-size: 16px;
+}
+
+.notion-page-icon {
+  font-size: 42px;
+  line-height: 1;
+  margin-bottom: 6px;
+}
+
+.notion-title {
+  font-size: 34px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  margin: 0 0 6px;
+}
+
+.page-header {
+  display: flex;
+  justify-content: space-between; /* 좌/우 배치 */
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.ph-left {
+  font-size: 14px;
+  font-weight: 500;
+  color: #374151; /* 진한 회색 */
+}
+
+.ph-left .ph-parent {
+  color: #6b7280; /* 연한 회색 */
+  margin-right: 4px;
+}
+
+.ph-right {
+  font-size: 13px;
+  color: #6b7280;
+}
