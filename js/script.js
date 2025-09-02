@@ -134,13 +134,13 @@ function createDocumentLi(item, depth = 0) {
   li.appendChild(hoverBox);
 
   // 이벤트
-  li.addEventListener('click', async (e) => {
-    e.stopPropagation();
-    const id = e.currentTarget.dataset.id;
-    const content = await getDocumentContent(id);
-    // history.pushState({ content }, '', `/${id}`);
-    updatePage(content);
-  });
+  // li.addEventListener('click', async (e) => {
+  //   e.stopPropagation();
+  //   const id = e.currentTarget.dataset.id;
+  //   const content = await getDocumentContent(id);
+  //   // history.pushState({ content }, '', `/${id}`);
+  //   updatePage(content);
+  // });
 
   addDiv.addEventListener('click', (e) => {
     e.stopPropagation();
