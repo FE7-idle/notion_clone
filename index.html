@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Notion</title>
+    <link rel="stylesheet" href="./css/index.css" />
+    <link rel="stylesheet" href="./css/style.css" />
+    <style>
+      /* 메인 부분 */
+      #main {
+        height: 100vh;
+        font-family: sans-serif;
+        display: flex;
+        /* margin: 10px; */
+      }
+      /* 사이드바 부분 */
+      #sidebar {
+        background-color: #f9f8f7;
+        width: 250px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        padding-left: 10px;
+        padding-right: 10px;
+      }
+      .logo {
+        /* flex-grow: 0; */
+        min-height: 44px;
+      }
+      .search {
+        min-height: 100px;
+      }
+      .document_list {
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+        min-height: 100%;
+      }
+      .insert_box {
+        height: 25px;
+        padding: 3px;
+        color: #91918e;
+        font-size: 0.8rem;
+        font-weight: bold;
+        cursor: pointer;
+      }
+      .list_box {
+        height: 30px;
+        display: flex;
+        align-items: center;
+        padding: 8px;
+        color: #5f5e5b;
+        font-size: 0.87rem;
+        cursor: pointer;
+      }
+      .list_logo {
+        margin-right: 8px;
+      }
+      .list_logo > img {
+        width: 17px;
+      }
+      .list_title {
+        font-weight: bold;
+        line-height: 3px;
+      }
+
+      /* 콘텐츠 부분 */
+      #content {
+        background-color: #ffffff;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="main">
+      <div id="sidebar">
+        <div class="logo">I-dle의 Notion</div>
+        <div class="search">검색</div>
+        <div class="document_list">
+          <div class="insert_box">개인 페이지</div>
+          <li class="list_box">
+            <div class="list_logo">
+              <img src="./img/google-docs.png" alt="list_logo" />
+            </div>
+            <div class="list_title">NextJS</div>
+          </li>
+          <li class="list_box">
+            <div class="list_logo">
+              <img src="./img/google-docs.png" alt="list_logo" />
+            </div>
+            <div class="list_title">React</div>
+          </li>
+          <li class="list_box">
+            <div class="list_logo">
+              <img src="./img/google-docs.png" alt="list_logo" />
+            </div>
+            <div class="list_title">JavaScript</div>
+          </li>
+          <li class="list_box">
+            <div class="list_logo">
+              <img src="./img/google-docs.png" alt="list_logo" />
+            </div>
+            <div class="list_title">CSS</div>
+          </li>
+        </div>
+      </div>
+      <div id="content"></div>
+    </div>
+  </body>
+</html>
