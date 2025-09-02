@@ -4,18 +4,19 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Notion</title>
-    <script defer src="./script.js"></script>
+    <script defer src="./js/script.js"></script>
+    <script defer src="./js/header-data.js"></script>
     <link rel="stylesheet" href="./css/index.css" />
     <link rel="stylesheet" href="./css/style.css" />
     <style>
-      /* 메인 부분 */
+      /* 메인 레이아웃 */
       #main {
         height: 100vh;
         font-family: sans-serif;
         display: flex;
-        /* margin: 10px; */
       }
-      /* 사이드바 부분 */
+
+      /* 사이드바 */
       #sidebar {
         background-color: #f9f8f7;
         width: 280px;
@@ -23,22 +24,21 @@
         flex-direction: column;
         justify-content: space-between;
       }
-      /* Notion Logo */
+
       .logo {
         min-height: 44px;
       }
-      /* 검색부분 */
       .search {
         min-height: 30px;
       }
-      /* 문서 리스트 박스 */
+
       .document_list {
         flex-grow: 1;
         display: flex;
         flex-direction: column;
         min-height: 100%;
       }
-      /* 개인 페이지 (문서 추가 부분) */
+
       .insert_box {
         height: 25px;
         padding: 8px;
@@ -58,10 +58,9 @@
       }
       .insert_hover_box:hover {
         background-color: #efeeec;
-
-        .insert_logo {
-          display: block;
-        }
+      }
+      .insert_hover_box:hover .insert_logo {
+        display: block;
       }
 
       .insert_logo {
@@ -77,57 +76,50 @@
       .list_box {
         min-height: 30px;
         padding-left: 8px;
-        padding-right: 8px;
         color: #5f5e5b;
         font-size: 0.87rem;
         cursor: pointer;
-        margin-bottom: 3px;
       }
       .list_hover_box {
         display: flex;
         align-items: center;
-        padding-left: 11px;
+        /* padding-left: 11px; */
+        margin-right: 10px;
         border-radius: 5px;
         height: 30px;
       }
-
       .list_hover_box:hover {
         background-color: #efeeec;
-
-        .remove_logo {
-          display: block;
-        }
-        .add_logo {
-          display: block;
-        }
+      }
+      .list_hover_box:hover .remove_logo,
+      .list_hover_box:hover .add_logo {
+        display: block;
       }
 
       .list_logo {
+        margin-left: 10px;
         margin-right: 10px;
       }
       .list_logo_img {
         width: 18px;
       }
-      .list_box:hover .list_logo_img {
-        content: url('./img/right-arrow.png');
-        padding: 3px;
-      }
-
       .remove_logo {
         display: none;
         border-radius: 5px;
         padding: 2px;
         margin-right: 3px;
       }
+
+      .remove_logo,
       .add_logo {
         display: none;
         border-radius: 5px;
         padding: 2px;
       }
-
-      .remove_logo:hover {
-        background-color: #bcbbbb5e;
+      .remove_logo {
+        margin-right: 3px;
       }
+      .remove_logo:hover,
       .add_logo:hover {
         background-color: #bcbbbb5e;
       }
@@ -139,23 +131,127 @@
         padding: 3px;
       }
       .list_title {
+        font-size: 0.9rem;
         font-weight: bold;
-        line-height: 3px;
+        line-height: 1.4;
         width: 80%;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
-      /* 하위 문서 */
-      .sub_1{
+
+      .sub_1 {
         padding-left: 15px;
       }
 
-      /* 콘텐츠 부분 */
+      /* 우측 영역 래퍼: 상단 헤더(풀폭) + 콘텐츠(고정폭) */
+      #right {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        background: #ffffff;
+      }
+
+      /* 페이지 상단 헤더(콘텐츠 폭을 벗어나 상단 양끝 여백 포함) */
+      .page-topbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 12px 20px; /* 양 끝 여백 */
+        border-bottom: 1px solid #eee;
+      }
+      .top-left {
+        font-size: 14px;
+        color: #374151;
+        font-weight: 600;
+      }
+      .top-right {
+        font-size: 13px;
+        color: #6b7280;
+        white-space: nowrap;
+      }
+
+      /* 콘텐츠 영역(고정 폭) */
       #content {
         background-color: #ffffff;
+        max-width: 900px; /* 콘텐츠 고정 폭 */
+        margin: 24px auto 120px; /* 가운데 정렬 */
+        padding: 0 20px; /* 안쪽 여백 */
+        color: #2f3437;
+        line-height: 1.75;
+        font-size: 16px;
+        width: 100%;
+      }
+
+      /* 간단한 콘텐츠 타이틀/아이콘 */
+      .notion-page-icon {
+        font-size: 42px;
+        line-height: 1;
+        margin-bottom: 6px;
+      }
+      .notion-title {
+        font-size: 34px;
+        font-weight: 600;
+        letter-spacing: -0.02em;
+        margin: 0 0 6px;
+      }
+
+      /* 이하 데모 콘텐츠 기본 스타일(필요 최소) */
+      .notion-hr {
+        border: none;
+        border-top: 1px solid #e5e7eb;
+        margin: 18px 0;
+      }
+      .notion-props {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        margin: 6px 0 18px;
+      }
+      .notion-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 4px 10px;
+        border: 1px solid #e5e7eb;
+        border-radius: 999px;
+        font-size: 12px;
+        color: #6b7280;
+        background: #fff;
+      }
+      .notion-text {
+        margin: 8px 0;
+      }
+      .notion-h2 {
+        font-size: 24px;
+        font-weight: 700;
+        margin: 22px 0 6px;
+      }
+      .notion-link {
+        color: #3b82f6;
+        text-decoration: none;
+      }
+      .notion-ul {
+        margin: 6px 0 10px 20px;
+      }
+      .notion-ul li {
+        list-style: disc;
+        margin: 4px 0 4px 14px;
+      }
+      .notion-inline-code {
+        font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+        background: #f3f4f6;
+        border: 1px solid #e5e7eb;
+        border-radius: 6px;
+        padding: 0 4px;
+        font-size: 90%;
       }
     </style>
   </head>
   <body>
     <div id="main">
+      <!-- 좌측: 사이드바 -->
       <div id="sidebar">
         <div class="logo">I-dle의 Notion</div>
         <div class="other_menu">
@@ -173,102 +269,51 @@
               />
             </div>
           </li>
-          <!-- <li class="list_box">
-            <div class="list_hover_box">
-              <div class="list_logo">
-                <img
-                  class="list_logo_img"
-                  src="./img/google-docs.png"
-                  alt="list_logo"
-                />
-              </div>
-              <div class="list_title">askvljasvlkjaslv</div>
-              <div class="add_logo">
-                <img
-                  class="remove_logo_img add_img"
-                  src="./img/plus.png"
-                  alt="remove_logo"
-                />
-              </div>
-              <div class="remove_logo">
-                <img
-                  class="remove_logo_img"
-                  src="./img/delete.png"
-                  alt="remove_logo"
-                />
-              </div>
-            </div> -->
-            <!-- <li class="list_box sub_1">
-            <div class="list_hover_box">
-              <div class="list_logo">
-                <img
-                  class="list_logo_img"
-                  src="./img/google-docs.png"
-                  alt="list_logo"
-                />
-              </div>
-              <div class="list_title">하위페이지</div>
-              <div class="add_logo">
-                <img
-                  class="remove_logo_img add_img"
-                  src="./img/plus.png"
-                  alt="remove_logo"
-                />
-              </div>
-              <div class="remove_logo">
-                <img
-                  class="remove_logo_img"
-                  src="./img/delete.png"
-                  alt="remove_logo"
-                />
-              </div>
-            </div>
-          </li> -->
-          </li>
         </ul>
       </div>
-      <div id="content">
-        <section class="page demo">
-          <header class="page-header">
-            <div class="ph-left">
-              <div class="ph-parent">Projects</div>
+
+      <div id="right">
+        <div class="page-topbar">
+          <div class="top-left">Projects</div>
+          <div class="top-right">10분 전 편집</div>
+        </div>
+
+        <div id="content">
+          <section class="page demo">
+            <div class="notion-page-icon">📄</div>
+            <h1 class="notion-title">노션 클론 – 메인 페이지</h1>
+
+            <div class="notion-props">
+              <span class="notion-pill">Status · In Progress</span>
+              <span class="notion-pill">Owner · Minsun</span>
+              <span class="notion-pill">Priority · High</span>
             </div>
-            <div class="ph-right">10분 전 편집</div>
-          </header>
 
-          <div class="notion-page-icon">📄</div>
-          <h1 class="notion-title">노션 클론 – 메인 페이지</h1>
+            <p class="notion-text">테스트용 화면. API 연동 전 배치만 확인.</p>
+            <hr class="notion-hr" />
 
-          <div class="notion-props">
-            <span class="notion-pill">Status · In Progress</span>
-            <span class="notion-pill">Owner · Minsun</span>
-            <span class="notion-pill">Priority · High</span>
-          </div>
+            <h2 class="notion-h2">섹션 제목 H2</h2>
+            <p class="notion-text">
+              본문 예시. <a class="notion-link" href="#">링크</a>와
+              <span class="notion-inline-code">inline code</span> 확인.
+            </p>
 
-          <p class="notion-text">테스트용 화면. API 연동 전 배치만 확인.</p>
-          <hr class="notion-hr" />
-
-          <h2 class="notion-h2">섹션 제목 H2</h2>
-          <p class="notion-text">
-            본문 예시. <a class="notion-link" href="#">링크</a>와
-            <span class="notion-inline-code">inline code</span> 확인.
-          </p>
-
-          <hr class="notion-hr" />
-          <ul class="notion-ul">
-            <li>
-              ⛔ 본 학습 자료의 저작권은 수코딩에 있습니다. 무단 도용 & 배포 &
-              복제를 강력하게 금지합니다
-            </li>
-            <li>
-              ⚠️ 본 학습 자료의 학습 예제 코드를 블로그에 올릴 경우
-              [수코딩(https://www.sucoding.kr)] 출처를 명확하게 남겨주세요. 단,
-              디자인이 적용된 파일의 전체 코드는 온라인에 올리는 것을
-              금지합니다. (2차 창작물에 대해서는 괜찮습니다)
-            </li>
-            <li>📢 본 학습 자료의 공유 기간은 2026. 01. 20까지입니다..</li>
-          </ul>
-        </section>
+            <hr class="notion-hr" />
+            <ul class="notion-ul">
+              <li>
+                ⛔ 본 학습 자료의 저작권은 수코딩에 있습니다. 무단 도용 & 배포 &
+                복제를 금지합니다.
+              </li>
+              <li>
+                ⚠️ 본 학습 자료의 예제 코드를 블로그에 올릴 경우
+                [수코딩(https://www.sucoding.kr)] 출처를 남겨주세요. 디자인이
+                적용된 파일의 전체 코드는 온라인 업로드 금지입니다. (2차
+                창작물은 괜찮습니다)
+              </li>
+              <li>📢 본 학습 자료의 공유 기간은 2026. 01. 20까지입니다.</li>
+            </ul>
+          </section>
+        </div>
       </div>
     </div>
   </body>
