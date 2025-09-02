@@ -76,16 +76,15 @@
       .list_box {
         min-height: 30px;
         padding-left: 8px;
-        padding-right: 8px;
         color: #5f5e5b;
         font-size: 0.87rem;
         cursor: pointer;
-        margin-bottom: 3px;
       }
       .list_hover_box {
         display: flex;
         align-items: center;
-        padding-left: 11px;
+        /* padding-left: 11px; */
+        margin-right: 10px;
         border-radius: 5px;
         height: 30px;
       }
@@ -98,14 +97,17 @@
       }
 
       .list_logo {
+        margin-left: 10px;
         margin-right: 10px;
       }
       .list_logo_img {
         width: 18px;
       }
-      .list_box:hover .list_logo_img {
-        content: url("./img/right-arrow.png");
-        padding: 3px;
+      .remove_logo {
+        display: none;
+        border-radius: 5px;
+        padding: 2px;
+        margin-right: 3px;
       }
 
       .remove_logo,
@@ -129,9 +131,14 @@
         padding: 3px;
       }
       .list_title {
+        font-size: 0.9rem;
         font-weight: bold;
-        line-height: 3px;
+        line-height: 1.4;
         width: 80%;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
 
       .sub_1 {

@@ -3,49 +3,10 @@ document.addEventListener('DOMContentLoaded', async () => {
   loadContentFromURL();
 
   const listData = await getDocuments();
-  // const documentsUl = document.querySelector('.document_list');
   const insertBox = document.querySelector('.insert_hover_box');
   listData.map((item) => {
-    const li = document.createElement('li');
-    li.className = 'list_box';
-    li.setAttribute('data-id', item.id);
-    li.innerHTML = `<div class="list_hover_box">
-                      <div class="list_logo">
-                        <img class="list_logo_img" src="./img/google-docs.png" alt="list_logo" />
-                      </div>
-                      <div class="list_title">${item.title}</div>
-                      <div class="add_logo">
-                      <img
-                        class="remove_logo_img add_img"
-                        src="./img/plus.png"
-                        alt="remove_logo"
-                      />
-                      </div>
-                      <div class="remove_logo">
-                        <img class="remove_logo_img" src="./img/delete.png" alt="remove_logo"/>
-                      </div>
-                    </div>
-                    `;
-    // 나중에 동적(문서가 추가될 때)으로 어떻게 할지 생각
-    li.addEventListener('click', async function (e) {
-      const id = e.currentTarget.getAttribute('data-id');
-      const content = await getDocumentContent(id);
-
-      // 페이지 이동
-      // history.pushState({ content }, '', `/${id}`);
-
-      updatePage(content);
-    });
-
+    const li = createDocumentLi(item);
     insertBox.parentNode.insertBefore(li, insertBox.nextSibling);
-
-    const removeBtn = document.querySelector('.remove_logo');
-    removeBtn.addEventListener('click', async function (e) {
-      e.stopPropagation();
-      const removeId =
-        e.target.parentNode.parentNode.parentNode.getAttribute('data-id');
-      await deleteDocuments(removeId);
-    });
   });
 });
 
@@ -112,4 +73,94 @@ async function deleteDocuments(id) {
   });
   const data = await res.json();
   console.log(data);
+}
+
+// document li 생성
+function createDocumentLi(item, depth = 0) {
+  const li = document.createElement('li');
+  li.className = 'list_box';
+
+  // padding-left 직접 적용 (클래스 대신 스타일 사용 가능)
+  li.style.paddingLeft = `10px`;
+
+  li.dataset.id = item.id;
+
+  // hoverBox
+  const hoverBox = document.createElement('div');
+  hoverBox.className = 'list_hover_box';
+
+  // logo
+  const logoDiv = document.createElement('div');
+  logoDiv.className = 'list_logo';
+  const logoImg = document.createElement('img');
+  logoImg.className = 'list_logo_img';
+  logoImg.src = './img/google-docs.png';
+  logoImg.alt = 'list_logo';
+  logoImg.style.width = '17px';
+
+  logoDiv.addEventListener('mouseenter', () => {
+    logoImg.src = './img/right-arrow.png';
+  });
+  logoDiv.addEventListener('mouseleave', () => {
+    logoImg.src = './img/google-docs.png';
+  });
+
+  logoDiv.appendChild(logoImg);
+
+  // title
+  const titleDiv = document.createElement('div');
+  titleDiv.className = 'list_title';
+  titleDiv.textContent = item.title;
+
+  // add 버튼
+  const addDiv = document.createElement('div');
+  addDiv.className = 'add_logo';
+  const addImg = document.createElement('img');
+  addImg.className = 'add_img remove_logo_img';
+  addImg.src = './img/plus.png';
+  addImg.alt = 'add_logo';
+  addDiv.appendChild(addImg);
+
+  // remove 버튼
+  const removeDiv = document.createElement('div');
+  removeDiv.className = 'remove_logo';
+  const removeImg = document.createElement('img');
+  removeImg.className = 'remove_logo_img';
+  removeImg.src = './img/delete.png';
+  removeImg.alt = 'remove_logo';
+  removeDiv.appendChild(removeImg);
+
+  hoverBox.append(logoDiv, titleDiv, addDiv, removeDiv);
+  li.appendChild(hoverBox);
+
+  // 이벤트
+  // li.addEventListener('click', async (e) => {
+  //   e.stopPropagation();
+  //   const id = e.currentTarget.dataset.id;
+  //   const content = await getDocumentContent(id);
+  //   // history.pushState({ content }, '', `/${id}`);
+  //   updatePage(content);
+  // });
+
+  addDiv.addEventListener('click', (e) => {
+    e.stopPropagation();
+    console.log('Add 버튼 클릭:', item.id);
+  });
+
+  removeDiv.addEventListener('click', async (e) => {
+    e.stopPropagation();
+    const removeId =
+      e.target.parentNode.parentNode.parentNode.getAttribute('data-id');
+    await deleteDocuments(removeId);
+  });
+
+  // 하위문서 처리
+  if (item.documents && item.documents.length) {
+    item.documents.forEach((subItem) => {
+      const subLi = createDocumentLi(subItem, depth + 1);
+      li.appendChild(subLi);
+    });
+  }
+
+  return li;
 }
