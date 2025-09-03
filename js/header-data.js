@@ -83,5 +83,5 @@ function renderContent(content, titles) {
   document.querySelector('.top-right').innerText = !!titles.length
     ? `${updatedAt.getMonth() + 1}월 ${updatedAt.getDate()}일`
     : '';
-  document.querySelector('.content_area').innerText = content.content || '';
+  document.querySelector('.content_area').value = content.content || '';
 }
