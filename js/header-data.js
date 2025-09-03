@@ -31,8 +31,8 @@ document.addEventListener('DOMContentLoaded', () => {
             history.pushState({}, '', '/');
             renderContent({ title: '새 문서를 선택하세요', content: '' }, []);
           }
-          setState(listData);
         }
+        setState(listData);
         return;
       }
 

@@ -25,10 +25,25 @@
         display: flex;
         flex-direction: column;
         justify-content: space-between;
+        border-right: 1px solid rgb(237, 236, 236);
       }
 
       .logo {
-        min-height: 44px;
+        min-height: 50px;
+        display: flex;
+        align-items: center;
+        margin-top: 3px;
+      }
+      .logo_img_box {
+        margin-left: 15px;
+      }
+      .logo_img_box > img {
+        width: 70%;
+      }
+      .logo_text_box {
+        font-size: 14px;
+        color: #32302c;
+        font-weight: bold;
       }
       .search {
         min-height: 30px;
@@ -154,7 +169,7 @@
         text-overflow: ellipsis;
       }
       div.list_hover_box.active {
-        background-color: #d1cfcf;
+        background-color: #e1dfdf;
       }
 
       /* 우측 영역 래퍼: 상단 헤더(풀폭) + 콘텐츠(고정폭) */
@@ -276,10 +291,17 @@
     <div id="main">
       <!-- 좌측: 사이드바 -->
       <div id="sidebar">
-        <div class="logo">I-dle의 Notion</div>
+        <div class="logo">
+          <div class="logo_img_box">
+            <img src="./img/notion_logo.png" alt="notion_logo" />
+          </div>
+          <div class="logo_text_box">
+            <h2>I-dle의 Notion</h2>
+          </div>
+        </div>
         <div class="other_menu">
-          <div class="search">검색</div>
-          <div class="search">홈</div>
+          <!-- <div class="search">검색</div>
+          <div class="search">홈</div> -->
         </div>
         <ul class="document_list">
           <li class="insert_hover_box">
@@ -303,7 +325,7 @@
 
         <div id="content">
           <section class="page demo">
-            <!-- <div class="notion-page-icon">📄</div> -->
+            <div class="notion-page-icon">📄</div>
             <h1 class="notion-title">노션 클론 – 메인 페이지</h1>
 
             <hr class="notion-hr" />
