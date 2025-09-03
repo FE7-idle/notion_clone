@@ -105,6 +105,28 @@ async function deleteDocuments(id) {
   const data = await res.json();
 }
 
+// 콘텐츠 수정
+async function putDocuments(id, title, content) {
+  console.log('id:', id);
+  console.log('title:', title);
+  console.log('content:', content);
+
+  const res = await fetch(`https://kdt-api.fe.dev-cos.com/documents/${id}`, {
+    method: 'PUT',
+    headers: {
+      'x-username': 'idle',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      title,
+      content,
+    }),
+  });
+  const data = await res.json();
+  console.log(data);
+  return data;
+}
+
 // document li 생성
 function createDocumentLi(item, depth = 0) {
   const path = window.location.pathname.slice(1);
