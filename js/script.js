@@ -1,33 +1,56 @@
-// 페이지 로드 시
-document.addEventListener('DOMContentLoaded', async () => {
-  loadContentFromURL();
+// 전역 state 객체
+const state = {
+  documents: [],
+};
 
-  const listData = await getDocuments();
+// 상태 변경 함수
+function setState(newState) {
+  state.documents = newState;
+  renderDocuments();
+}
+
+// 렌더링 함수
+function renderDocuments() {
   const insertBox = document.querySelector('.insert_hover_box');
-  listData.map((item) => {
+  const parent = insertBox.parentNode;
+
+  // 기존 리스트 전부 제거
+  parent.querySelectorAll('.list_box').forEach((li) => li.remove());
+
+  // 새 리스트 렌더링
+  state.documents.forEach((item) => {
     const li = createDocumentLi(item);
     insertBox.parentNode.insertBefore(li, insertBox.nextSibling);
   });
+}
+
+// 페이지 로드 시
+document.addEventListener('DOMContentLoaded', async () => {
+  // loadContentFromURL();
+
+  const listData = await getDocuments();
+  setState(listData);
 });
 
 // 페이지 새로고침 시
-function loadContentFromURL() {
-  const path = window.location.pathname.replace('/', '') || 'home';
-  // const pageData = pages[path] || { content: '404', title: 'Not Found' };
-  // document.getElementById('content').textContent = pageData.content;
-  // document.title = pageData.title;
-  console.log(path);
-}
+// function loadContentFromURL() {
+//   const path = window.location.pathname.replace('/', '') || 'home';
+//   // const pageData = pages[path] || { content: '404', title: 'Not Found' };
+//   // document.getElementById('content').textContent = pageData.content;
+//   // document.title = pageData.title;
+//   console.log(path);
+// }
 
 // 페이지 이동 시
 function updatePage(state) {
   if (!state) return;
-  console.log(state.title);
+  console.log(state);
 }
 
 // 페이지 뒤로/앞으로 가기 할 시
 window.addEventListener('popstate', (e) => {
-  console.log('asd');
+  renderContent(e.state.content, e.state.titles);
+  console.log(e.state.titles);
 });
 
 // 전체 리스트 호출
@@ -51,6 +74,23 @@ async function getDocuments() {
   }
 }
 
+// 문서 추가 API
+async function postDocuments(id) {
+  const res = await fetch('https://kdt-api.fe.dev-cos.com/documents', {
+    method: 'POST',
+    headers: {
+      'x-username': 'idle',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      title: id ? '하위 문서' : '새 문서',
+      parent: id || null,
+    }),
+  });
+  const data = await res.json();
+  return data;
+}
+
 // 해당 콘텐츠 가져오기
 async function getDocumentContent(id) {
   const res = await fetch(`https://kdt-api.fe.dev-cos.com/documents/${id}`, {
@@ -72,7 +112,6 @@ async function deleteDocuments(id) {
     },
   });
   const data = await res.json();
-  console.log(data);
 }
 
 // document li 생성
@@ -132,19 +171,6 @@ function createDocumentLi(item, depth = 0) {
 
   hoverBox.append(logoDiv, titleDiv, addDiv, removeDiv);
   li.appendChild(hoverBox);
-
-  // 이벤트
-  addDiv.addEventListener('click', (e) => {
-    e.stopPropagation();
-    console.log('Add 버튼 클릭:', item.id);
-  });
-
-  removeDiv.addEventListener('click', async (e) => {
-    e.stopPropagation();
-    const removeId =
-      e.target.parentNode.parentNode.parentNode.getAttribute('data-id');
-    await deleteDocuments(removeId);
-  });
 
   // 하위문서 처리
   if (item.documents && item.documents.length) {
