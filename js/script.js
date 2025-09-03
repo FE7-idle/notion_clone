@@ -122,8 +122,6 @@ function createDocumentLi(item, depth = 0) {
   li.style.paddingLeft = `10px`;
   li.dataset.id = item.id;
 
-  const hoverBox = document.createElement("div");
-  hoverBox.className = "list_hover_box";
   // hoverBox
   const hoverBox = document.createElement("div");
   hoverBox.className = "list_hover_box";
