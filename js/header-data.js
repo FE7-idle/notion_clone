@@ -80,8 +80,8 @@ function renderContent(content, titles) {
   document.querySelector('.notion-title').innerText = content.title;
   const subTitle = titles.join(' / ');
   document.querySelector('.top-left').innerText = subTitle;
-  document.querySelector('.top-right').innerText = `${
-    updatedAt.getMonth() + 1
-  }월 ${updatedAt.getDate()}일`;
+  document.querySelector('.top-right').innerText = !!titles.length
+    ? `${updatedAt.getMonth() + 1}월 ${updatedAt.getDate()}일`
+    : '';
   document.querySelector('.content_area').innerText = content.content || '';
 }
