@@ -21,9 +21,9 @@ document.addEventListener('DOMContentLoaded', () => {
       if (!res.ok) throw new Error(await res.text());
       const doc = await res.json();
       const listData = await getDocuments();
-      setState(listData);
       renderContent(doc, [doc.title]);
       history.pushState({ content: doc, titles: doc.title }, '', `/${doc.id}`);
+      setState(listData);
     } catch (err) {
       console.error('문서 생성 실패:', err);
       alert('문서 생성 실패');

@@ -41,7 +41,7 @@ function updatePage(state) {
 // 페이지 뒤로/앞으로 가기 할 시
 window.addEventListener('popstate', (e) => {
   renderContent(e.state.content, e.state.titles);
-  console.log(e.state.titles);
+  renderDocuments();
 });
 
 // 전체 리스트 호출
@@ -107,6 +107,7 @@ async function deleteDocuments(id) {
 
 // document li 생성
 function createDocumentLi(item, depth = 0) {
+  const path = window.location.pathname.slice(1);
   const li = document.createElement('li');
   li.className = 'list_box';
 
@@ -118,6 +119,9 @@ function createDocumentLi(item, depth = 0) {
   // hoverBox
   const hoverBox = document.createElement('div');
   hoverBox.className = 'list_hover_box';
+
+  // 액티브 되어 있는 페이지 강조
+  if (item.id === Number(path)) hoverBox.classList.add('active');
 
   // logo
   const logoDiv = document.createElement('div');
