@@ -114,8 +114,6 @@ async function putDocuments(id, title, content) {
 }
 
 function createDocumentLi(item, depth = 0) {
-  const li = document.createElement("li");
-  li.className = "list_box";
   const path = window.location.pathname.slice(1);
   const li = document.createElement("li");
   li.className = "list_box";
