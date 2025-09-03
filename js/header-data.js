@@ -12,9 +12,26 @@ document.addEventListener('DOMContentLoaded', () => {
 
       // 삭제 버튼 클릭이면 삭제 처리
       if (e.target.closest('.list_hover_box .remove_logo')) {
+        const parentLi = li.parentElement.closest('li.list_box');
+        const parentId = parentLi ? Number(parentLi.dataset.id) : null;
         await deleteDocuments(li.dataset.id);
         const listData = await getDocuments();
         setState(listData);
+        if (path === li.dataset.id) {
+          if (parentId) {
+            const parentContent = await getDocumentContent(parentId);
+            const titles = getTitles(parentLi);
+            renderContent(parentContent, titles);
+            history.pushState(
+              { content: parentContent, titles },
+              '',
+              `/${parentId}`
+            );
+          } else {
+            history.pushState({}, '', '/');
+            renderContent({ title: '새 문서를 선택하세요', content: '' }, []);
+          }
+        }
         return;
       }
 
@@ -50,7 +67,9 @@ function getTitles(li) {
   while (currentLi && currentLi.classList.contains('list_box')) {
     const titleDiv = currentLi.querySelector('.list_title');
     if (titleDiv) titles.unshift(titleDiv.textContent);
-    currentLi = currentLi.parentElement.closest('li.list_box');
+    currentLi = currentLi.parentElement
+      ? currentLi.parentElement.closest('li.list_box')
+      : null;
   }
 
   return titles;
