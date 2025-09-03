@@ -32,15 +32,6 @@ document.addEventListener('DOMContentLoaded', async () => {
   setState(listData);
 });
 
-// 페이지 새로고침 시
-// function loadContentFromURL() {
-//   const path = window.location.pathname.replace('/', '') || 'home';
-//   // const pageData = pages[path] || { content: '404', title: 'Not Found' };
-//   // document.getElementById('content').textContent = pageData.content;
-//   // document.title = pageData.title;
-//   console.log(path);
-// }
-
 // 페이지 이동 시
 function updatePage(state) {
   if (!state) return;
