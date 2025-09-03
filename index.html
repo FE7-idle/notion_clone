@@ -6,6 +6,9 @@
     <title>Notion</title>
     <script defer src="./js/script.js"></script>
     <script defer src="./js/header-data.js"></script>
+    <script defer src="./js/script.js"></script>
+    <script defer src="./js/sidebar-create.js"></script>
+
     <link rel="stylesheet" href="./css/index.css" />
     <link rel="stylesheet" href="./css/style.css" />
     <style>
@@ -56,11 +59,20 @@
         height: 30px;
         cursor: pointer;
       }
+      .insert_logo {
+        display: none;
+        margin-right: 10px;
+        border-radius: 5px;
+        padding: 2px;
+      }
       .insert_hover_box:hover {
         background-color: #efeeec;
       }
       .insert_hover_box:hover .insert_logo {
         display: block;
+      } /* ← 핵심 */
+      .insert_logo:hover {
+        background-color: #bcbbbb5e;
       }
 
       .insert_logo {
@@ -91,7 +103,9 @@
       .list_hover_box:hover {
         background-color: #efeeec;
       }
-      .list_hover_box:hover .remove_logo,
+      .list_hover_box:hover .remove_logo {
+        display: block;
+      }
       .list_hover_box:hover .add_logo {
         display: block;
       }
