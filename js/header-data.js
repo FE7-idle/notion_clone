@@ -31,7 +31,9 @@ document.addEventListener('DOMContentLoaded', () => {
       }월 ${updatedAt.getDate()}일`;
       document.querySelector('.content_area').innerText = content.content;
 
-      // // history.pushState({ content }, '', `/${id}`);
+      history.pushState({ content }, '', `/${id}`);
+      const path = window.location.pathname.slice(1);
+      console.log(path);
       updatePage(content);
     });
 });
