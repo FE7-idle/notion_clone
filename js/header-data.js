@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const parentId = parentLi ? Number(parentLi.dataset.id) : null;
         await deleteDocuments(li.dataset.id);
         const listData = await getDocuments();
-        setState(listData);
+        // 보고 있는 페이지가 삭제 됐을 때
         if (path === li.dataset.id) {
           if (parentId) {
             const parentContent = await getDocumentContent(parentId);
@@ -31,6 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
             history.pushState({}, '', '/');
             renderContent({ title: '새 문서를 선택하세요', content: '' }, []);
           }
+          setState(listData);
         }
         return;
       }
@@ -40,11 +41,10 @@ document.addEventListener('DOMContentLoaded', () => {
         const titles = getTitles(li);
         const doc = await postDocuments(li.dataset.id);
         const listData = await getDocuments();
-        setState(listData);
         titles.push(doc.title);
         renderContent(doc, titles);
         history.pushState({ content: doc, titles }, '', `/${doc.id}`);
-
+        setState(listData);
         return;
       }
 
@@ -54,9 +54,9 @@ document.addEventListener('DOMContentLoaded', () => {
       const content = await getDocumentContent(id);
 
       renderContent(content, titles);
-
       history.pushState({ content, titles }, '', `/${id}`);
-      updatePage(content);
+      renderDocuments();
+      // updatePage(content);
     });
 });
 
