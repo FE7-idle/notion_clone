@@ -39,7 +39,6 @@
         flex-grow: 1;
         display: flex;
         flex-direction: column;
-        min-height: 100%;
       }
 
       .insert_box {
@@ -155,16 +154,13 @@
         text-overflow: ellipsis;
       }
 
-      .sub_1 {
-        padding-left: 15px;
-      }
-
       /* 우측 영역 래퍼: 상단 헤더(풀폭) + 콘텐츠(고정폭) */
       #right {
         flex: 1;
         display: flex;
         flex-direction: column;
         background: #ffffff;
+        overflow-y: auto;
       }
 
       /* 페이지 상단 헤더(콘텐츠 폭을 벗어나 상단 양끝 여백 포함) */
@@ -178,7 +174,6 @@
       .top-left {
         font-size: 14px;
         color: #374151;
-        font-weight: 600;
       }
       .top-right {
         font-size: 13px;
@@ -190,7 +185,7 @@
       #content {
         background-color: #ffffff;
         max-width: 900px; /* 콘텐츠 고정 폭 */
-        margin: 24px auto 120px; /* 가운데 정렬 */
+        margin: 100px auto 120px; /* 가운데 정렬 */
         padding: 0 20px; /* 안쪽 여백 */
         color: #2f3437;
         line-height: 1.75;
@@ -261,6 +256,17 @@
         padding: 0 4px;
         font-size: 90%;
       }
+      .content_area {
+        width: 100%;
+        height: 500px;
+        padding: 8px;
+        border: none;
+        font-size: 16px;
+        font-family: Arial, sans-serif;
+        resize: none;
+        outline: none;
+        overflow-y: auto;
+      }
     </style>
   </head>
   <body>
@@ -294,38 +300,11 @@
 
         <div id="content">
           <section class="page demo">
-            <div class="notion-page-icon">📄</div>
+            <!-- <div class="notion-page-icon">📄</div> -->
             <h1 class="notion-title">노션 클론 – 메인 페이지</h1>
 
-            <div class="notion-props">
-              <span class="notion-pill">Status · In Progress</span>
-              <span class="notion-pill">Owner · Minsun</span>
-              <span class="notion-pill">Priority · High</span>
-            </div>
-
-            <p class="notion-text">테스트용 화면. API 연동 전 배치만 확인.</p>
             <hr class="notion-hr" />
-
-            <h2 class="notion-h2">섹션 제목 H2</h2>
-            <p class="notion-text">
-              본문 예시. <a class="notion-link" href="#">링크</a>와
-              <span class="notion-inline-code">inline code</span> 확인.
-            </p>
-
-            <hr class="notion-hr" />
-            <ul class="notion-ul">
-              <li>
-                ⛔ 본 학습 자료의 저작권은 수코딩에 있습니다. 무단 도용 & 배포 &
-                복제를 금지합니다.
-              </li>
-              <li>
-                ⚠️ 본 학습 자료의 예제 코드를 블로그에 올릴 경우
-                [수코딩(https://www.sucoding.kr)] 출처를 남겨주세요. 디자인이
-                적용된 파일의 전체 코드는 온라인 업로드 금지입니다. (2차
-                창작물은 괜찮습니다)
-              </li>
-              <li>📢 본 학습 자료의 공유 기간은 2026. 01. 20까지입니다.</li>
-            </ul>
+            <textarea class="content_area" placeholder="새 페이지"></textarea>
           </section>
         </div>
       </div>

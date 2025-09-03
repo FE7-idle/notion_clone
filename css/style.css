@@ -1,4 +1,4 @@
-:root {
+/* :root {
   --page-w: 900px;
   --fg: #2f3437;
 }
@@ -27,7 +27,7 @@
 
 .page-header {
   display: flex;
-  justify-content: space-between; /* 좌/우 배치 */
+  justify-content: space-between; 
   align-items: center;
   margin-bottom: 16px;
 }
@@ -35,15 +35,15 @@
 .ph-left {
   font-size: 14px;
   font-weight: 500;
-  color: #374151; /* 진한 회색 */
+  color: #374151; 
 }
 
 .ph-left .ph-parent {
-  color: #6b7280; /* 연한 회색 */
+  color: #6b7280; 
   margin-right: 4px;
 }
 
 .ph-right {
   font-size: 13px;
   color: #6b7280;
-}
+} */
