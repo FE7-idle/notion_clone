@@ -35,7 +35,7 @@ function updatePage(state) {
 
 window.addEventListener("popstate", (e) => {
   renderContent(e.state.content, e.state.titles);
-  console.log(e.state.titles);
+  renderDocuments();
 });
 
 async function getDocuments() {
@@ -91,14 +91,47 @@ async function deleteDocuments(id) {
   const data = await res.json();
 }
 
+// 콘텐츠 수정
+async function putDocuments(id, title, content) {
+  console.log("id:", id);
+  console.log("title:", title);
+  console.log("content:", content);
+
+  const res = await fetch(`https://kdt-api.fe.dev-cos.com/documents/${id}`, {
+    method: "PUT",
+    headers: {
+      "x-username": "idle",
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      title,
+      content,
+    }),
+  });
+  const data = await res.json();
+  console.log(data);
+  return data;
+}
+
 function createDocumentLi(item, depth = 0) {
   const li = document.createElement("li");
   li.className = "list_box";
+  const path = window.location.pathname.slice(1);
+  const li = document.createElement("li");
+  li.className = "list_box";
+
+  // padding-left 직접 적용 (클래스 대신 스타일 사용 가능)
   li.style.paddingLeft = `10px`;
   li.dataset.id = item.id;
 
   const hoverBox = document.createElement("div");
   hoverBox.className = "list_hover_box";
+  // hoverBox
+  const hoverBox = document.createElement("div");
+  hoverBox.className = "list_hover_box";
+
+  // 액티브 되어 있는 페이지 강조
+  if (item.id === Number(path)) hoverBox.classList.add("active");
 
   const logoDiv = document.createElement("div");
   logoDiv.className = "list_logo";
