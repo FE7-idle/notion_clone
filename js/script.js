@@ -1,7 +1,6 @@
 const state = {
   documents: [],
 };
-let currentDocId = null;
 
 function setState(newState) {
   state.documents = newState;
@@ -76,7 +75,6 @@ async function getDocumentContent(id) {
     },
   });
   const data = await res.json();
-  currentDocId = id;
   return data;
 }
 
@@ -186,6 +184,7 @@ function initTitleEditing() {
     titleEl.setAttribute('contenteditable', 'true');
     titleEl.focus();
     titleEl.style.outline = 'none';
+    const id = history.state.content.id;
 
     titleEl.addEventListener(
       'blur',
@@ -193,9 +192,9 @@ function initTitleEditing() {
         titleEl.removeAttribute('contenteditable');
         const newTitle = titleEl.textContent.trim();
 
-        if (newTitle && currentDocId) {
+        if (newTitle && id) {
           const updated = await putDocuments(
-            currentDocId,
+            id,
             newTitle,
             document.querySelector('.content_area').value
           );
@@ -207,7 +206,7 @@ function initTitleEditing() {
             setState(listData);
 
             const currentLi = document.querySelector(
-              `.list_box[data-id="${currentDocId}"]`
+              `.list_box[data-id="${id}"]`
             );
             if (currentLi) {
               const titles = getTitles(currentLi);
