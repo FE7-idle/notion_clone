@@ -1,50 +1,42 @@
-// 전역 state 객체
 const state = {
   documents: [],
 };
+let currentDocId = null;
 
-// 상태 변경 함수
 function setState(newState) {
   state.documents = newState;
   renderDocuments();
 }
 
-// 렌더링 함수
 function renderDocuments() {
   const insertBox = document.querySelector('.insert_hover_box');
   const parent = insertBox.parentNode;
 
-  // 기존 리스트 전부 제거
   parent.querySelectorAll('.list_box').forEach((li) => li.remove());
 
-  // 새 리스트 렌더링
   state.documents.forEach((item) => {
     const li = createDocumentLi(item);
     insertBox.parentNode.insertBefore(li, insertBox.nextSibling);
   });
 }
 
-// 페이지 로드 시
 document.addEventListener('DOMContentLoaded', async () => {
-  // loadContentFromURL();
-
   const listData = await getDocuments();
   setState(listData);
+
+  initTitleEditing();
 });
 
-// 페이지 이동 시
 function updatePage(state) {
   if (!state) return;
   console.log(state);
 }
 
-// 페이지 뒤로/앞으로 가기 할 시
 window.addEventListener('popstate', (e) => {
   renderContent(e.state.content, e.state.titles);
   renderDocuments();
 });
 
-// 전체 리스트 호출
 async function getDocuments() {
   try {
     const res = await fetch('https://kdt-api.fe.dev-cos.com/documents', {
@@ -53,11 +45,6 @@ async function getDocuments() {
         'x-username': 'idle',
       },
     });
-
-    // if (res.ok !== 200) {
-    //   throw new Error('에러');
-    // }
-
     const data = await res.json();
     return data;
   } catch (error) {
@@ -65,7 +52,6 @@ async function getDocuments() {
   }
 }
 
-// 문서 추가 API
 async function postDocuments(id) {
   const res = await fetch('https://kdt-api.fe.dev-cos.com/documents', {
     method: 'POST',
@@ -82,7 +68,6 @@ async function postDocuments(id) {
   return data;
 }
 
-// 해당 콘텐츠 가져오기
 async function getDocumentContent(id) {
   const res = await fetch(`https://kdt-api.fe.dev-cos.com/documents/${id}`, {
     method: 'GET',
@@ -91,10 +76,10 @@ async function getDocumentContent(id) {
     },
   });
   const data = await res.json();
+  currentDocId = id;
   return data;
 }
 
-// 콘텐츠 삭제
 async function deleteDocuments(id) {
   const res = await fetch(`https://kdt-api.fe.dev-cos.com/documents/${id}`, {
     method: 'DELETE',
@@ -127,7 +112,6 @@ async function putDocuments(id, title, content) {
   return data;
 }
 
-// document li 생성
 function createDocumentLi(item, depth = 0) {
   const path = window.location.pathname.slice(1);
   const li = document.createElement('li');
@@ -135,7 +119,6 @@ function createDocumentLi(item, depth = 0) {
 
   // padding-left 직접 적용 (클래스 대신 스타일 사용 가능)
   li.style.paddingLeft = `10px`;
-
   li.dataset.id = item.id;
 
   // hoverBox
@@ -145,7 +128,6 @@ function createDocumentLi(item, depth = 0) {
   // 액티브 되어 있는 페이지 강조
   if (item.id === Number(path)) hoverBox.classList.add('active');
 
-  // logo
   const logoDiv = document.createElement('div');
   logoDiv.className = 'list_logo';
   const logoImg = document.createElement('img');
@@ -163,12 +145,10 @@ function createDocumentLi(item, depth = 0) {
 
   logoDiv.appendChild(logoImg);
 
-  // title
   const titleDiv = document.createElement('div');
   titleDiv.className = 'list_title';
   titleDiv.textContent = item.title;
 
-  // add 버튼
   const addDiv = document.createElement('div');
   addDiv.className = 'add_logo';
   const addImg = document.createElement('img');
@@ -177,7 +157,6 @@ function createDocumentLi(item, depth = 0) {
   addImg.alt = 'add_logo';
   addDiv.appendChild(addImg);
 
-  // remove 버튼
   const removeDiv = document.createElement('div');
   removeDiv.className = 'remove_logo';
   const removeImg = document.createElement('img');
@@ -189,7 +168,6 @@ function createDocumentLi(item, depth = 0) {
   hoverBox.append(logoDiv, titleDiv, addDiv, removeDiv);
   li.appendChild(hoverBox);
 
-  // 하위문서 처리
   if (item.documents && item.documents.length) {
     item.documents.forEach((subItem) => {
       const subLi = createDocumentLi(subItem, depth + 1);
@@ -198,4 +176,55 @@ function createDocumentLi(item, depth = 0) {
   }
 
   return li;
+}
+
+function initTitleEditing() {
+  const titleEl = document.querySelector('.notion-title');
+  if (!titleEl) return;
+
+  titleEl.addEventListener('dblclick', () => {
+    titleEl.setAttribute('contenteditable', 'true');
+    titleEl.focus();
+    titleEl.style.outline = 'none';
+
+    titleEl.addEventListener(
+      'blur',
+      async () => {
+        titleEl.removeAttribute('contenteditable');
+        const newTitle = titleEl.textContent.trim();
+
+        if (newTitle && currentDocId) {
+          const updated = await putDocuments(
+            currentDocId,
+            newTitle,
+            document.querySelector('.content_area').value
+          );
+
+          if (updated) {
+            titleEl.textContent = updated.title;
+
+            const listData = await getDocuments();
+            setState(listData);
+
+            const currentLi = document.querySelector(
+              `.list_box[data-id="${currentDocId}"]`
+            );
+            if (currentLi) {
+              const titles = getTitles(currentLi);
+              document.querySelector('.top-left').innerText =
+                titles.join(' / ');
+            }
+          }
+        }
+      },
+      { once: true }
+    );
+
+    titleEl.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        titleEl.blur();
+      }
+    });
+  });
 }
