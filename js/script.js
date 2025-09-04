@@ -9,10 +9,10 @@ function setState(newState) {
 }
 
 function renderDocuments() {
-  const insertBox = document.querySelector(".insert_hover_box");
+  const insertBox = document.querySelector('.insert_hover_box');
   const parent = insertBox.parentNode;
 
-  parent.querySelectorAll(".list_box").forEach((li) => li.remove());
+  parent.querySelectorAll('.list_box').forEach((li) => li.remove());
 
   state.documents.forEach((item) => {
     const li = createDocumentLi(item);
@@ -20,12 +20,11 @@ function renderDocuments() {
   });
 }
 
-document.addEventListener("DOMContentLoaded", async () => {
+document.addEventListener('DOMContentLoaded', async () => {
   const listData = await getDocuments();
   setState(listData);
 
   initTitleEditing();
-  initContentEditing();
 });
 
 function updatePage(state) {
@@ -33,17 +32,17 @@ function updatePage(state) {
   console.log(state);
 }
 
-window.addEventListener("popstate", (e) => {
+window.addEventListener('popstate', (e) => {
   renderContent(e.state.content, e.state.titles);
   renderDocuments();
 });
 
 async function getDocuments() {
   try {
-    const res = await fetch("https://kdt-api.fe.dev-cos.com/documents", {
-      method: "GET",
+    const res = await fetch('https://kdt-api.fe.dev-cos.com/documents', {
+      method: 'GET',
       headers: {
-        "x-username": "idle",
+        'x-username': 'idle',
       },
     });
     const data = await res.json();
@@ -54,14 +53,14 @@ async function getDocuments() {
 }
 
 async function postDocuments(id) {
-  const res = await fetch("https://kdt-api.fe.dev-cos.com/documents", {
-    method: "POST",
+  const res = await fetch('https://kdt-api.fe.dev-cos.com/documents', {
+    method: 'POST',
     headers: {
-      "x-username": "idle",
-      "Content-Type": "application/json",
+      'x-username': 'idle',
+      'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      title: id ? "하위 문서" : "새 문서",
+      title: id ? '하위 문서' : '새 문서',
       parent: id || null,
     }),
   });
@@ -71,9 +70,9 @@ async function postDocuments(id) {
 
 async function getDocumentContent(id) {
   const res = await fetch(`https://kdt-api.fe.dev-cos.com/documents/${id}`, {
-    method: "GET",
+    method: 'GET',
     headers: {
-      "x-username": "idle",
+      'x-username': 'idle',
     },
   });
   const data = await res.json();
@@ -83,9 +82,9 @@ async function getDocumentContent(id) {
 
 async function deleteDocuments(id) {
   const res = await fetch(`https://kdt-api.fe.dev-cos.com/documents/${id}`, {
-    method: "DELETE",
+    method: 'DELETE',
     headers: {
-      "x-username": "idle",
+      'x-username': 'idle',
     },
   });
   const data = await res.json();
@@ -93,15 +92,15 @@ async function deleteDocuments(id) {
 
 // 콘텐츠 수정
 async function putDocuments(id, title, content) {
-  console.log("id:", id);
-  console.log("title:", title);
-  console.log("content:", content);
+  console.log('id:', id);
+  console.log('title:', title);
+  console.log('content:', content);
 
   const res = await fetch(`https://kdt-api.fe.dev-cos.com/documents/${id}`, {
-    method: "PUT",
+    method: 'PUT',
     headers: {
-      "x-username": "idle",
-      "Content-Type": "application/json",
+      'x-username': 'idle',
+      'Content-Type': 'application/json',
     },
     body: JSON.stringify({
       title,
@@ -115,57 +114,55 @@ async function putDocuments(id, title, content) {
 
 function createDocumentLi(item, depth = 0) {
   const path = window.location.pathname.slice(1);
-  const li = document.createElement("li");
-  li.className = "list_box";
+  const li = document.createElement('li');
+  li.className = 'list_box';
 
   // padding-left 직접 적용 (클래스 대신 스타일 사용 가능)
   li.style.paddingLeft = `10px`;
   li.dataset.id = item.id;
 
-  const hoverBox = document.createElement("div");
-  hoverBox.className = "list_hover_box";
   // hoverBox
-  const hoverBox = document.createElement("div");
-  hoverBox.className = "list_hover_box";
+  const hoverBox = document.createElement('div');
+  hoverBox.className = 'list_hover_box';
 
   // 액티브 되어 있는 페이지 강조
-  if (item.id === Number(path)) hoverBox.classList.add("active");
+  if (item.id === Number(path)) hoverBox.classList.add('active');
 
-  const logoDiv = document.createElement("div");
-  logoDiv.className = "list_logo";
-  const logoImg = document.createElement("img");
-  logoImg.className = "list_logo_img";
-  logoImg.src = "/notion_clone/img/google-docs.png";
-  logoImg.alt = "list_logo";
-  logoImg.style.width = "17px";
+  const logoDiv = document.createElement('div');
+  logoDiv.className = 'list_logo';
+  const logoImg = document.createElement('img');
+  logoImg.className = 'list_logo_img';
+  logoImg.src = './img/google-docs.png';
+  logoImg.alt = 'list_logo';
+  logoImg.style.width = '17px';
 
-  logoDiv.addEventListener("mouseenter", () => {
-    logoImg.src = "/notion_clone/img/right-arrow.png";
+  logoDiv.addEventListener('mouseenter', () => {
+    logoImg.src = './img/right-arrow.png';
   });
-  logoDiv.addEventListener("mouseleave", () => {
-    logoImg.src = "/notion_clone/img/google-docs.png";
+  logoDiv.addEventListener('mouseleave', () => {
+    logoImg.src = './img/google-docs.png';
   });
 
   logoDiv.appendChild(logoImg);
 
-  const titleDiv = document.createElement("div");
-  titleDiv.className = "list_title";
+  const titleDiv = document.createElement('div');
+  titleDiv.className = 'list_title';
   titleDiv.textContent = item.title;
 
-  const addDiv = document.createElement("div");
-  addDiv.className = "add_logo";
-  const addImg = document.createElement("img");
-  addImg.className = "add_img remove_logo_img";
-  addImg.src = "/notion_clone/img/plus.png";
-  addImg.alt = "add_logo";
+  const addDiv = document.createElement('div');
+  addDiv.className = 'add_logo';
+  const addImg = document.createElement('img');
+  addImg.className = 'add_img remove_logo_img';
+  addImg.src = './img/plus.png';
+  addImg.alt = 'add_logo';
   addDiv.appendChild(addImg);
 
-  const removeDiv = document.createElement("div");
-  removeDiv.className = "remove_logo";
-  const removeImg = document.createElement("img");
-  removeImg.className = "remove_logo_img";
-  removeImg.src = "/notion_clone/img/delete.png";
-  removeImg.alt = "remove_logo";
+  const removeDiv = document.createElement('div');
+  removeDiv.className = 'remove_logo';
+  const removeImg = document.createElement('img');
+  removeImg.className = 'remove_logo_img';
+  removeImg.src = './img/delete.png';
+  removeImg.alt = 'remove_logo';
   removeDiv.appendChild(removeImg);
 
   hoverBox.append(logoDiv, titleDiv, addDiv, removeDiv);
@@ -181,47 +178,26 @@ function createDocumentLi(item, depth = 0) {
   return li;
 }
 
-async function updateDocument(id, newTitle, newContent) {
-  try {
-    const res = await fetch(`https://kdt-api.fe.dev-cos.com/documents/${id}`, {
-      method: "PUT",
-      headers: {
-        "x-username": "idle",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        title: newTitle,
-        content: newContent || "",
-      }),
-    });
-    if (!res.ok) throw new Error("저장 실패");
-    const data = await res.json();
-    return data;
-  } catch (err) {
-    console.error(err);
-  }
-}
-
 function initTitleEditing() {
-  const titleEl = document.querySelector(".notion-title");
+  const titleEl = document.querySelector('.notion-title');
   if (!titleEl) return;
 
-  titleEl.addEventListener("dblclick", () => {
-    titleEl.setAttribute("contenteditable", "true");
+  titleEl.addEventListener('dblclick', () => {
+    titleEl.setAttribute('contenteditable', 'true');
     titleEl.focus();
-    titleEl.style.outline = "none";
+    titleEl.style.outline = 'none';
 
     titleEl.addEventListener(
-      "blur",
+      'blur',
       async () => {
-        titleEl.removeAttribute("contenteditable");
+        titleEl.removeAttribute('contenteditable');
         const newTitle = titleEl.textContent.trim();
 
         if (newTitle && currentDocId) {
-          const updated = await updateDocument(
+          const updated = await putDocuments(
             currentDocId,
             newTitle,
-            document.querySelector(".content_area").value
+            document.querySelector('.content_area').value
           );
 
           if (updated) {
@@ -235,8 +211,8 @@ function initTitleEditing() {
             );
             if (currentLi) {
               const titles = getTitles(currentLi);
-              document.querySelector(".top-left").innerText =
-                titles.join(" / ");
+              document.querySelector('.top-left').innerText =
+                titles.join(' / ');
             }
           }
         }
@@ -244,32 +220,11 @@ function initTitleEditing() {
       { once: true }
     );
 
-    titleEl.addEventListener("keydown", (e) => {
-      if (e.key === "Enter") {
+    titleEl.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
         e.preventDefault();
         titleEl.blur();
       }
     });
-  });
-}
-
-function initContentEditing() {
-  const contentEl = document.querySelector(".content_area");
-  if (!contentEl) return;
-
-  contentEl.addEventListener("blur", async () => {
-    const newContent = contentEl.value;
-    console.log("콘텐츠 저장 시도:", newContent);
-
-    if (currentDocId) {
-      const updated = await updateDocument(
-        currentDocId,
-        document.querySelector(".notion-title").textContent,
-        newContent
-      );
-      if (updated) {
-        console.log("콘텐츠 저장 완료:", updated);
-      }
-    }
   });
 }

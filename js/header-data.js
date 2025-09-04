@@ -56,7 +56,6 @@ document.addEventListener('DOMContentLoaded', () => {
       renderContent(content, titles);
       history.pushState({ content, titles }, '', `/${id}`);
       renderDocuments();
-      // updatePage(content);
     });
 });
 
