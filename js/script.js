@@ -23,11 +23,6 @@ document.addEventListener('DOMContentLoaded', async () => {
   const listData = await getDocuments();
   setState(listData);
 
-  const intro = document.querySelector('.introduce');
-  if (history.state.content) {
-    intro.style.display = 'none';
-  }
-
   initTitleEditing();
 });
 
